@@ -1,0 +1,109 @@
+
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    12:59:43 04/08/2024 
+// Design Name: 
+// Module Name:    alu 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module ALU(shamt,a,b,aluc,alu_out,zero,OF,SF);
+	 input[31:0]a,b;
+	 input[4:0] shamt;
+	 input [3:0]aluc;//4 bit
+	 output [31:0]alu_out;
+	 output zero;
+	 output OF;
+	 output SF;
+
+	 reg[31:0]alu_out;
+	 reg zero;
+	 reg OF;
+	 reg SF;
+	 always@(*)//a,b,aluc,alu_out
+	 begin
+		case(aluc)
+			4'b0000: //ADD
+			begin
+			alu_out<=a+b;
+			OF<=((alu_out[31]&!a[31]&!b[31])||(!alu_out[31]&a[31]&b[31]));
+			SF<=alu_out[31];
+			end
+			4'b0001: //AND
+			begin
+			alu_out<=a&b;
+			OF<=0;
+			SF<=alu_out[31];
+			end
+			4'b0010: //OR
+			begin
+			alu_out<=a|b;
+			OF<=0;
+			SF<=alu_out[31];
+			end
+			4'b0011://XOR
+			begin
+			alu_out<=a^b;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+
+			4'b0100://SUB
+			begin
+			alu_out<=a-b;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			4'b0101://NOR
+			begin
+			alu_out<=~(a|b);
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			4'b0111://BLGEZ
+			begin
+			alu_out<=a-0;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			4'b1000://SLL|SLLV
+			begin
+			alu_out<=b<<shamt;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			4'b1001://SRL|SRLV
+			begin
+			alu_out<=b>>shamt;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			4'b1010://SRA|SRAV
+			begin
+			alu_out<=($signed (b))>>>shamt;
+			OF<=((alu_out[31]&!a[31]&b[31])||(!alu_out[31]&a[31]&!b[31]));
+			SF<=alu_out[31];
+			end
+			default: 
+			begin
+			alu_out<=a+b;
+			OF<=((alu_out[31]&!a[31]&!b[31])||(!alu_out[31]&a[31]&b[31]));
+			SF<=alu_out[31];
+			end
+		endcase
+		zero<=(alu_out==32'h00000000);
+	end
+endmodule
+
+

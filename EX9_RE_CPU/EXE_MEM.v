@@ -1,0 +1,50 @@
+
+
+module EXE_MEM(SLTE,SLTM,jalE,jalM,pc_4E,pc_4M,brCtrlE,brCtrlM,SFE,SFM,ZFE,ZFM,npccE,npccM,pcBrE,pcBrM,pcJE,pcJM,wtypeE,wtypeM,regwriteE,memtoregE,memwriteE,ALUoutE,qbE,dstregE,clk,regwriteM,memtoregM,memwriteM,ALUoutM,qbM,dstregM);//,ZFEPCE,,PCM,ZFM
+input clk,ZFE,SFE,jalE,SLTE;
+//input we;
+input regwriteE,memtoregE,memwriteE;//,ZFE
+//input [1:0]NPCCtrlE;
+input [31:0] ALUoutE,qbE,pcBrE,pcJE,pc_4E;//PCE,
+input [4:0] dstregE;
+input [1:0] npccE;
+input [2:0] wtypeE;
+input [2:0] brCtrlE;
+
+output regwriteM,memtoregM,memwriteM,ZFM,SFM,jalM,SLTM;//,ZFM
+//output [1:0]NPCCtrlM;
+output [31:0] ALUoutM,qbM,pcBrM,pcJM,pc_4M;//PCM,
+output [4:0] dstregM;
+output [1:0] npccM;
+output [2:0] wtypeM;
+output [2:0] brCtrlM;
+reg regwriteM,memtoregM,memwriteM,ZFM,SFM,jalM,SLTM;//,ZFM
+//reg [1:0]NPCCtrlM;
+reg [31:0] ALUoutM,qbM,pcBrM,pcJM,pc_4M;//PCM,
+reg [4:0] dstregM;
+reg [1:0] npccM;
+reg [2:0] wtypeM;
+reg [2:0] brCtrlM;
+
+
+
+always @(posedge clk)  //PosEdge Write
+	begin
+	regwriteM=regwriteE;
+	memtoregM=memtoregE;
+	memwriteM=memwriteE;
+	ZFM=ZFE;
+	SFM=SFE;
+	pcBrM=pcBrE;
+	pcJM=pcJE;
+	ALUoutM=ALUoutE;
+	qbM=qbE;
+	dstregM=dstregE;
+	pc_4M=pc_4E;
+	wtypeM=wtypeE;
+	npccM=npccE;
+	brCtrlM=brCtrlE;
+	jalM=jalE;
+	SLTM=SLTE;
+	end
+endmodule

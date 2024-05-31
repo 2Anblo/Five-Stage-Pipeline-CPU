@@ -1,0 +1,88 @@
+module CU(func,op,regwrite,aluctrl,alusrc,regdst,npccontrol,memtoreg,memwrite,ExtOp,wtype,brCtrl,jal,JR,SLT,SV);//ZF,
+	input [5:0] func;
+	input [5:0] op;
+	//input ZF;
+	output regwrite;
+	output [3:0] aluctrl;
+	output alusrc;
+	output regdst;
+	output [1:0] npccontrol;
+	output memtoreg;
+	output memwrite;
+	output [1:0] ExtOp;
+	output [2:0] wtype;
+	output [2:0] brCtrl;
+	output jal,JR,SLT,SV;
+	
+	//wire [2:0] aluop;
+	//wire [2:0] alucontrol;
+	//op[5]&op[4]&op[3]&op[2]&op[1]&op[0]
+	//func[5]&func[4]&func[3]&func[2]&func[1]&func[0]
+	
+	//regwrite=JAL|RTYPE|ORI|ADDI|LW|LUI|LH|LB|LHU|LBH|ADDIU|XORI|ANDI|SLTI
+	assign regwrite=(!op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&op[2]&!op[1]&op[0])|(!op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0])|(!op[5]&!op[4]&op[3]&op[2]&op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&op[3]&op[2]&op[1]&!op[0])|(!op[5]&!op[4]&op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&!op[2]&op[1]&!op[0]);
+
+	//aluctrl[0]=((AND)&RTYPE)|BGTZ|BLEZ|BGEZ|XOR|XORI|ANDI|NOR|SRL|SRLV
+	//SRL=((!func[5]&!func[4]&!func[3]&!func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))
+	//SRA=((!func[5]&!func[4]&!func[3]&!func[2]&func[1]&func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))
+	assign aluctrl[0]=((func[5]&!func[4]&!func[3]&func[2]&!func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&!op[0])|((func[5]&!func[4]&!func[3]&func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(!op[5]&!op[4]&op[3]&op[2]&op[1]&!op[0])|(!op[5]&!op[4]&op[3]&op[2]&!op[1]&!op[0])|((func[5]&!func[4]&!func[3]&func[2]&func[1]&func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(((!func[5]&!func[4]&!func[3]&!func[2]&func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&!func[0]))&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]));
+
+	//aluctrl[1]=ORI|BGTZ|BLEZ|BGEZ|OR|XOR|XORI|SRA|SRAV
+	assign aluctrl[1]=(!op[5]&!op[4]&op[3]&op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&!op[0])|((func[5]&!func[4]&!func[3]&func[2]&!func[1]&func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|((func[5]&!func[4]&!func[3]&func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(!op[5]&!op[4]&op[3]&op[2]&op[1]&!op[0])|(((!func[5]&!func[4]&!func[3]&!func[2]&func[1]&func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&func[0]))&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]));
+	
+	//aluctrl[2]=BEQ|BGTZ|BLEZ|BGEZ|BNE|SUB|SUBU|NOR|SLT|SLTI
+	assign aluctrl[2]=(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&!op[0])|(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|((func[5]&!func[4]&!func[3]&!func[2]&func[1]&func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|((func[5]&!func[4]&!func[3]&!func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|((func[5]&!func[4]&!func[3]&func[2]&func[1]&func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|((func[5]&!func[4]&func[3]&!func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(!op[5]&!op[4]&op[3]&!op[2]&op[1]&!op[0]);
+	
+	//aluctrl[3]=(SLL|SRL|SRA|SLLV|SRLV|SRAV)&RTYPE
+	//
+	assign aluctrl[3]=((!func[5]&!func[4]&!func[3]&!func[2]&!func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&!func[2]&func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&!func[2]&func[1]&func[0])|(!func[5]&!func[4]&!func[3]&func[2]&!func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&func[0]))&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]);
+
+	//alusrc=ORI|ADDI|SW|LW|LUI|LH|LB|SB|SH|LHU|LBU|ADDIU|XORI|ANDI|SLTI
+	assign alusrc=(!op[5]&!op[4]&op[3]&op[2]&!op[1]&op[0])|(!op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&op[3]&!op[2]&op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0])|(!op[5]&!op[4]&op[3]&op[2]&op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&!op[2]&!op[1]&op[0])||(!op[5]&!op[4]&op[3]&op[2]&op[1]&!op[0])|(!op[5]&!op[4]&op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&!op[2]&op[1]&!op[0]);
+
+	//regdst=RTYPE
+	assign regdst=!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0];
+	
+	//npccontrol[0]=BEQ&ZF|BGTZ|BGEZ|BLEZ
+	assign npccontrol[0]=(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&op[1]&!op[0]);//&ZF
+	
+	//npccontrol[1]=J|JAL|JR
+	assign npccontrol[1]=(!op[5]&!op[4]&!op[3]&!op[2]&op[1]&!op[0])|(!op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0])|((!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])&(!func[5]&!func[4]&func[3]&!func[2]&!func[1]&!func[0]));
+	
+	//m2reg=LW|LH|LB|LHU|LBU
+	assign memtoreg=(op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0]);
+
+	//mWrite=SW|SB|SH
+	assign memwrite=(op[5]&!op[4]&op[3]&!op[2]&op[1]&op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&op[0]);
+
+	//ExtOp[0]=ADDI|SLTI
+	assign ExtOp[0]=(!op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(!op[5]&!op[4]&op[3]&!op[2]&op[1]&!op[0]);
+
+	//ExtOp[1]=LUI
+	assign ExtOp[1]=!op[5]&!op[4]&op[3]&op[2]&op[1]&op[0];
+
+	//wtype[0]=LB|SB|LBU
+	assign wtype[0]=(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&!op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0]);
+
+	//wtype[1]=LH|SH|LHU
+	assign wtype[1]=(op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&op[3]&!op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0]);
+	
+	//wtype[2]=LHU|LBU
+	assign wtype[2]=(op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0])|(op[5]&!op[4]&!op[3]&op[2]&!op[1]&!op[0]);
+	//brCtrl[0]=BGTZ|BNE
+	assign brCtrl[0]=(!op[5]&!op[4]&!op[3]&op[2]&op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0]);//
+	//brCtrl[1]=BGEZ|BNE
+	assign brCtrl[1]=(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&op[0])|(!op[5]&!op[4]&!op[3]&op[2]&!op[1]&op[0]);
+	//brCtrl[2]=BLEZ
+	assign brCtrl[2]=(!op[5]&!op[4]&!op[3]&op[2]&op[1]&!op[0]);
+	//jal=JAL
+	assign jal=(!op[5]&!op[4]&!op[3]&!op[2]&op[1]&op[0]);
+	//JR=JR
+	assign JR=((!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0])&(!func[5]&!func[4]&func[3]&!func[2]&!func[1]&!func[0]));
+	//SLT=SLT|SLTI
+	assign SLT=(((func[5]&!func[4]&func[3]&!func[2]&func[1]&!func[0])&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]))|(!op[5]&!op[4]&op[3]&!op[2]&op[1]&!op[0]));
+	//SVE=SLLV|SRLV|SRAV
+	assign SV=((!func[5]&!func[4]&!func[3]&func[2]&!func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&!func[0])|(!func[5]&!func[4]&!func[3]&func[2]&func[1]&func[0]))&(!op[5]&!op[4]&!op[3]&!op[2]&!op[1]&!op[0]);
+endmodule
+	
+

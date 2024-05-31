@@ -1,0 +1,155 @@
+F:/Sophomore2/EX9_RE_CPU/MUX32_2.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MUX32_2.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MUX32_2
+
+Top level modules:
+	MUX32_2
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/hazard_unit.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/hazard_unit.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module hazard_unit
+
+Top level modules:
+	hazard_unit
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/MUX32_4.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MUX32_4.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MUX32_4
+
+Top level modules:
+	MUX32_4
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/Pipe_CPU_T.vt {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/Pipe_CPU_T.vt
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module Pipe_CPU_T
+
+Top level modules:
+	Pipe_CPU_T
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/NPCc.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/NPCc.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module NPCc
+
+Top level modules:
+	NPCc
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/Pipe_CPU.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/Pipe_CPU.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module Pipe_CPU
+
+Top level modules:
+	Pipe_CPU
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/im.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/im.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module im
+
+Top level modules:
+	im
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/ID_EXE.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/ID_EXE.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module ID_EXE
+
+Top level modules:
+	ID_EXE
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/PC_add_4.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/PC_add_4.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module PC_add_4
+
+Top level modules:
+	PC_add_4
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/MUX3_2.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MUX3_2.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MUX3_2
+
+Top level modules:
+	MUX3_2
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/MEM_WB.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MEM_WB.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MEM_WB
+
+Top level modules:
+	MEM_WB
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/Extender.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/Extender.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module Extender
+
+Top level modules:
+	Extender
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/CU.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/CU.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module CU
+
+Top level modules:
+	CU
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/MUX5_2.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MUX5_2.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MUX5_2
+
+Top level modules:
+	MUX5_2
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/EXE_MEM.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/EXE_MEM.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module EXE_MEM
+
+Top level modules:
+	EXE_MEM
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/NPC.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/NPC.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module NPC
+
+Top level modules:
+	NPC
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/dm.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/dm.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module dm
+
+Top level modules:
+	dm
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/MUX5_4.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/MUX5_4.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MUX5_4
+
+Top level modules:
+	MUX5_4
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/ALU.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/ALU.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module ALU
+
+Top level modules:
+	ALU
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/pc.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/pc.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module pc
+
+Top level modules:
+	pc
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/IF_ID.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/IF_ID.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module IF_ID
+
+Top level modules:
+	IF_ID
+
+} {} {}} F:/Sophomore2/EX9_RE_CPU/RF_32.v {1 {vlog -work work -vopt -stats=none F:/Sophomore2/EX9_RE_CPU/RF_32.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module RF_32
+
+Top level modules:
+	RF_32
+
+} {} {}}

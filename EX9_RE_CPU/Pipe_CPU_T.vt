@@ -1,0 +1,43 @@
+
+`timescale 1ns/1ns
+module Pipe_CPU_T;
+	reg clk;
+	reg clr;
+	wire [31:0]t1,t2,t0,IRF,s0;//,aluoutE,aluA,aluB,qaD,data,aluoutM,IRD;,pc_4F,pcBrM,pcJM,pcBrE,pcJE,pc_4E;
+	//wire [1:0]npcc;
+	//wire [1:0]ForwardB;
+	//wire [4:0]dstregM,rtE;
+	//wire regwriteM;
+	//,.aluoutE(aluoutE),.aluA(aluA),.aluB(aluB),.qaD(qaD),.data(data),.aluoutM(aluoutM),.IRD(IRD)
+	/*wire memwriteM;
+	wire [31:0]qbM;
+	wire [1:0]wtypeD; */
+//,.memwriteM(memwriteM),.qbM(qbM),.wtypeD(wtypeD),.dstregM(dstregM),.rtE(rtE),.ForwardB(ForwardB)
+Pipe_CPU utt(.clk(clk),.clr(clr),.t1(t1),.t2(t2),.t0(t0),.IRF(IRF),.s0(s0));//.pc_4F(pc_4F),.pcBrM(pcBrM),.pcJM(pcJM),.npcc(npcc),.pcBrE(pcBrE),.pcJE(pcJE),.pc_4E(pc_4E)
+initial
+begin
+clr=0;
+//
+#20;
+clr=1;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;#20;
+
+
+
+$stop;
+$finish;
+end
+initial    
+	begin
+	  clk = 0;
+	  forever #10 clk = ~clk;
+	end	
+endmodule

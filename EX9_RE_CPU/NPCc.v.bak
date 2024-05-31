@@ -1,0 +1,62 @@
+
+module NPCc(npcctrl,ZF,npcc,brCtrl,SF);
+input [1:0]npcctrl;
+input ZF;
+input [2:0]brCtrl;
+input [1:0]bez;
+input SF;
+
+output [1:0]npcc;
+reg [1:0]npcc;
+always@(*)
+begin
+	case(npcctrl)
+	2'b00:
+	npcc=2'b00;
+	2'b01://pcbr
+	begin
+	case(brCtrl)
+	3'b000://Beq
+	begin
+	if(ZF)
+	npcc=2'b01;
+	else
+	npcc=2'b00;
+	end
+	3'b001://Bgtz
+	begin
+	if(!SF)
+	npcc=2'b01;
+	else
+	npcc=2'b00;
+	end
+	3'b010://Bgez
+	begin
+	if((!SF)|ZF)
+	npcc=2'b01;
+	else
+	npcc=2'b00;
+	end
+	3'b011://Bne
+	begin
+	if(!ZF)
+	npcc=2'b01;
+	else
+	npcc=2'b00;
+	end
+	3'b100://Blez
+	begin
+	if(ZF|SF)
+	npcc=2'b01;
+	else
+	npcc=2'b00;
+	end
+	endcase
+	end
+	2'b10://pcJ
+	npcc=2'b10;
+	default:
+	npcc=2'b00;
+	endcase
+end
+endmodule

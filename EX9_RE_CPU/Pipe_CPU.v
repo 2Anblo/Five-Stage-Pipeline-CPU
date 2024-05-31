@@ -1,0 +1,137 @@
+
+
+module Pipe_CPU(clk,clr,t1,t2,t0,IRF,s0);//pc_4F,pcBrM,pcJM,npcc,pcBrE,pcJE,pc_4E//,aluoutE,aluA,aluB,qaD,data,aluoutM,IRD//,memwriteM,qbM,wtypeD,dstregM,rtE,ForwardB
+
+//input
+input clk;
+input clr;
+
+//output
+output [31:0]t1,t2,t0,s0,IRF;
+
+
+//wire
+wire StallF;
+wire StallD;
+wire FlushD;
+wire FlushE;
+wire SFE,SFM,jalD,jalE,jalM,jalW;
+wire ZFE,ZFM,OF,JRD,JRE,SLTD,SLTE,SLTM;
+wire regwriteD;
+wire regwriteE;
+wire regwriteM;
+wire regwriteW;
+wire alusrcD;
+wire alusrcE;
+wire regdstD;
+wire regdstE;
+wire memtoregD,SVD,SVE;
+wire memtoregE;
+wire memtoregM;
+wire memtoregW;
+wire memwriteD;
+wire memwriteE;
+wire memwriteM;
+wire ForwardQAE,ForwardQBE;
+
+
+wire [1:0]ForwardA;
+wire [1:0]ForwardB;
+wire [1:0]ForwardSV;
+wire [1:0]npccontrol;
+wire [1:0]ExtOpD;
+wire [1:0]npcc;
+wire [1:0]npccD,npccE,npccM;
+
+wire [2:0]brCtrlD,brCtrlE,brCtrlM;
+wire [2:0]wtypeD;
+wire [2:0]wtypeE;
+wire [2:0]wtypeM;
+
+wire [3:0] aluctrlD;
+wire [3:0] aluctrlE;
+
+wire [4:0]rtE;
+wire [4:0]rdE;
+wire [4:0]rsE,shamtE,shamtD,shamt_alu,shamt_alu_A;
+wire [4:0]dstregE,dstregE_A,dstregE_B;
+wire [4:0]dstregM;
+wire [4:0]dstregW;
+
+wire [31:0]data_A,data;
+wire [31:0]qaD,qaD_A;
+wire [31:0]qbD,qbD_A;
+wire [31:0]qaE;
+wire [31:0]qbE;
+wire [31:0]qbM;
+wire [31:0]immD;
+wire [31:0]immE;
+wire [31:0]aluA;
+wire [31:0]aluB;
+wire [31:0]aluoutE;
+wire [31:0]aluoutM,aluoutM_A;
+wire [31:0]aluoutW;
+wire [31:0]NPCAD,NPCBD;
+wire [31:0]qbE_F;
+wire [31:0]memoutM;
+wire [31:0]memoutW;
+wire [31:0]t1,t2,t0,s0;
+wire [31:0] NPC;
+wire [31:0] PC;
+wire [31:0] IRF;
+wire [31:0] IRD,IRE;
+wire [31:0] pc_4F;
+wire [31:0] pc_4D,pc_4E,pc_4M,pc_4W;
+wire [31:0] pcBrE,pcBrM;
+wire [31:0] pcJE,pcJM;
+//call
+
+//IF
+MUX32_4 MUX_PC_3(.M1(pc_4F),.M2(pcBrM),.M3(pcJM),.M4(pc_4F),.Mout(NPC),.MSel(npcc));
+pc pc(.clk(clk),.clrn(clr),.e(StallF),.d(NPC),.q(PC));
+im im(.addr(PC[7:0]),.out(IRF));
+PC_add_4 pc_add_4(.pc(PC),.pc_4(pc_4F));
+
+//IF/ID
+IF_ID IF_ID(.FlushD(FlushD),.pc_4F(pc_4F),.IRF(IRF),.clk(clk),.pc_4D(pc_4D),.IRD(IRD),.en(StallD));
+
+//ID
+CU CU(.func(IRD[5:0]),.op(IRD[31:26]),.regwrite(regwriteD),.aluctrl(aluctrlD),.alusrc(alusrcD),.regdst(regdstD),.npccontrol(npccD),.memtoreg(memtoregD),.memwrite(memwriteD),.ExtOp(ExtOpD),.wtype(wtypeD),.brCtrl(brCtrlD),.jal(jalD),.JR(JRD),.SLT(SLTD),.SV(SVD));
+RF_32 RF_32(.clk(clk),.we(regwriteW),.ra(IRD[25:21]),.rb(IRD[20:16]),.rw(dstregW),.rd(data),.qa(qaD_A),.qb(qbD_A),.r16(t1),.r17(t2),.r18(t0),.s0(s0));
+Extender EXT(.imm(IRD[15:0]),.ExtOp(ExtOpD),.EOut(immD));
+
+//ID/EXE
+MUX32_2 qa_D_u(.M1(qaD_A),.M2(data),.Mout(qaD),.MSel(ForwardQAE));
+MUX32_2 qb_D_u(.M1(qbD_A),.M2(data),.Mout(qbD),.MSel(ForwardQBE));
+ID_EXE ID_EXE_u(.SVD(SVD),.SVE(SVE),.shamtD(IRD[10:6]),.shamtE(shamtE),.SLTD(SLTD),.SLTE(SLTE),.JRD(JRD),.JRE(JRE),.jalD(jalD),.jalE(jalE),.brCtrlD(brCtrlD),.brCtrlE(brCtrlE),.IRD(IRD),.IRE(IRE),.npccD(npccD),.npccE(npccE),.pc_4D(pc_4D),.pc_4E(pc_4E),.rsD(IRD[25:21]),.rsE(rsE),.wtypeD(wtypeD),.wtypeE(wtypeE),.qaD(qaD),.qbD(qbD),.immD(immD),.rtD(IRD[20:16]),.rdD(IRD[15:11]),.regwriteD(regwriteD),.memtoregD(memtoregD),.memwriteD(memwriteD),.ALUControlD(aluctrlD),.ALUSrcD(alusrcD),.regdstD(regdstD),.clk(clk),.qaE(qaE),.qbE(qbE),.immE(immE),.rtE(rtE),.rdE(rdE),.regwriteE(regwriteE),.memtoregE(memtoregE),.memwriteE(memwriteE),.ALUControlE(aluctrlE),.ALUSrcE(alusrcE),.regdstE(regdstE),.clr(FlushE));
+
+//EXE
+NPC NPC_u(.JR(JRE),.qa(qaE),.pc(pc_4E),.addr(IRE[25:0]),.offset(IRE[15:0]),.pcBr(pcBrE),.pcJ(pcJE));
+MUX5_2 shamt_A_u(.M1(shamtE),.M2(qaE[4:0]),.MOut(shamt_alu_A),.MSel(SVE));
+MUX5_4 shamt_A_B_A_u(.M1(shamt_alu_A),.M2(aluoutM[4:0]),.M3(data[4:0]),.M4(shamt_alu_A),.Mout(shamt_alu),.MSel(ForwardSV));
+ALU alu(.shamt(shamt_alu),.a(aluA),.b(aluB),.aluc(aluctrlE),.alu_out(aluoutE),.zero(ZFE),.OF(OF),.SF(SFE));
+MUX32_2 alu_src_u(.M1(qbE_F),.M2(immE),.Mout(aluB),.MSel(alusrcE));
+MUX32_4 alu_A_u(.M1(qaE),.M2(data),.M3(aluoutM),.M4(qaE),.Mout(aluA),.MSel(ForwardA));
+MUX32_4 alu_B_u(.M1(qbE),.M2(data),.M3(aluoutM),.M4(qbE),.Mout(qbE_F),.MSel(ForwardB));
+MUX5_2 dstreg_u(.M1(rtE),.M2(rdE),.MOut(dstregE_A),.MSel(regdstE));
+MUX5_2 dstreg_B_u(.M1(5'b00000),.M2(dstregE_A),.MOut(dstregE_B),.MSel(regwriteE));
+MUX5_2 JAL_u(.M1(dstregE_B),.M2(5'b11111),.MOut(dstregE),.MSel(jalE));
+
+//EXE/MEM
+EXE_MEM EXE_MEM_u(.SLTE(SLTE),.SLTM(SLTM),.jalE(jalE),.jalM(jalM),.pc_4E(pc_4E),.pc_4M(pc_4M),.brCtrlE(brCtrlE),.brCtrlM(brCtrlM),.SFE(SFE),.SFM(SFM),.ZFE(ZFE),.ZFM(ZFM),.npccE(npccE),.npccM(npccM),.pcBrE(pcBrE),.pcBrM(pcBrM),.pcJE(pcJE),.pcJM(pcJM),.wtypeE(wtypeE),.wtypeM(wtypeM),.regwriteE(regwriteE),.memtoregE(memtoregE),.memwriteE(memwriteE),.ALUoutE(aluoutE),.qbE(qbE_F),.dstregE(dstregE),.clk(clk),.regwriteM(regwriteM),.memtoregM(memtoregM),.memwriteM(memwriteM),.ALUoutM(aluoutM_A),.qbM(qbM),.dstregM(dstregM));
+
+//MEM
+NPCc NPCc(.npcctrl(npccM),.ZF(ZFM),.npcc(npcc),.brCtrl(brCtrlM),.SF(SFM));
+dm dm_u(.clk(clk),.we(memwriteM),.addr(aluoutM[7:0]),.din(qbM),.dout(memoutM),.wtype(wtypeM));
+
+//MEM/WB
+MUX32_2 aluoutM_u(.M1(aluoutM_A),.M2(32'h00000001),.Mout(aluoutM),.MSel(SLTM&SFM));
+MEM_WB mem_wb_u(.jalM(jalM),.jalW(jalW),.pc_4M(pc_4M),.pc_4W(pc_4W),.regwriteM(regwriteM),.memtoregM(memtoregM),.ALUoutM(aluoutM),.dstregM(dstregM),.MemoutM(memoutM),.clk(clk),.regwriteW(regwriteW),.memtoregW(memtoregW),.ALUoutW(aluoutW),.dstregW(dstregW),.MemoutW(memoutW));
+
+//WB
+MUX32_2 WB_u(.M1(aluoutW),.M2(memoutW),.Mout(data_A),.MSel(memtoregW));
+MUX32_2 JALA_u(.M1(data_A),.M2(pc_4W),.Mout(data),.MSel(jalW));
+
+//hazard_detect_unit
+hazard_unit hazard(.ForwardSV(ForwardSV),.SVE(SVE),.ForwardQAE(ForwardQAE),.ForwardQBE(ForwardQBE),.memwriteE(memwriteE),.npcc(npcc),.npccE(npccE),.FlushD(FlushD),.StallF(StallF),.StallD(StallD),.FlushE(FlushE),.rsD(IRD[25:21]),.rtD(IRD[20:16]),.rsE(rsE),.rtE(rtE),.ForwardAE(ForwardA),.ForwardBE(ForwardB),.memtoregE(memtoregE),.dstregM(dstregM),.regwriteM(regwriteM),.regwriteW(regwriteW),.dstregW(dstregW),.dstregE(dstregE),.regwriteE(regwriteE));//.ForwardNE(ForwardNE),.ForwardNT(ForwardNT),
+endmodule
